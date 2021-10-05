@@ -41,8 +41,6 @@ contract SimpleBank {
     /// @notice Get balance
     /// @return The balance of the user
     function getBalance() public returns (uint) {
-      // 1. A SPECIAL KEYWORD prevents function from editing state variables;
-      //    allows function to run locally/off blockchain
       return balances[msg.sender];
     }
 
@@ -58,12 +56,10 @@ contract SimpleBank {
     /// @notice Deposit ether into bank
     /// @return The balance of the user after the deposit is made
     function deposit() payable public returns (uint) {
-
       assert(enrolled[msg.sender]);
-
       balances[msg.sender] = balances[msg.sender] + msg.value;
       emit LogDepositMade(msg.sender, msg.value);
-    
+  
       return balances[msg.sender];
     }
 
@@ -75,7 +71,6 @@ contract SimpleBank {
       require (enrolled[msg.sender]);
       require (balances[msg.sender] >= withdrawAmount);
       msg.sender.transfer(withdrawAmount);
-
       balances[msg.sender] = balances[msg.sender] - withdrawAmount;
       emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
     }
