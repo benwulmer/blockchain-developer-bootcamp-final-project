@@ -19,11 +19,6 @@ contract("PayItBackward", function (accounts) {
     instance = await PayItBackward.new();
   });
 
-  it("ready to be solved!", async() => {
-    const eth100 = 100e18;
-    assert.equal(await web3.eth.getBalance(alice), eth100.toString());
-  });
-
   it("is owned by owner", async () => {
     assert.equal(
       // Hint:

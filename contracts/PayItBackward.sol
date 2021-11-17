@@ -24,7 +24,7 @@ contract PrevUserTracker {
     prevAddress = newAddress;
   }
 
-  function getLastAddress() public returns(address payable) {
+  function getLastAddress() public view returns(address payable) {
     return prevAddress;
   }
 }
