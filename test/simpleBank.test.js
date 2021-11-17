@@ -9,14 +9,14 @@ with `npm install -g truffle`.
 
 */
 const { catchRevert } = require("./exceptionsHelpers.js");
-var SimpleBank = artifacts.require("./SimpleBank.sol");
+var PayItBackward = artifacts.require("./PayItBackward.sol");
 
-contract("SimpleBank", function (accounts) {
+contract("PayItBackward", function (accounts) {
   const [contractOwner, alice] = accounts;
   const deposit = web3.utils.toBN(2);
 
   beforeEach(async () => {
-    instance = await SimpleBank.new();
+    instance = await PayItBackward.new();
   });
 
   it("ready to be solved!", async() => {
