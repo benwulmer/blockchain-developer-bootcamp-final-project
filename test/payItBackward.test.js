@@ -1,18 +1,9 @@
-/*
 
-The public version of the file used for testing can be found here: https://gist.github.com/ConsenSys-Academy/ce47850a8e2cba6ef366625b665c7fba
-
-This test file has been updated for Truffle version 5.0. If your tests are failing, make sure that you are
-using Truffle version 5.0. You can check this by running "trufffle version"  in the terminal. If version 5 is not
-installed, you can uninstall the existing version with `npm uninstall -g truffle` and install the latest version (5.0)
-with `npm install -g truffle`.
-
-*/
 const { catchRevert } = require("./exceptionsHelpers.js");
 var PayItBackward = artifacts.require("./PayItBackward.sol");
 
 contract("PayItBackward", function (accounts) {
-  const [contractOwner, alice] = accounts;
+  const [contractOwner, bob] = accounts;
   const deposit = web3.utils.toBN(2);
 
   beforeEach(async () => {
@@ -21,55 +12,33 @@ contract("PayItBackward", function (accounts) {
 
   it("is owned by owner", async () => {
     assert.equal(
-      // Hint:
-      //   the error `TypeError: Cannot read property 'call' of undefined`
-      //   will be fixed by setting the correct visibility specifier. See
-      //   the following two links
-      //   1: https://docs.soliditylang.org/en/v0.8.5/cheatsheet.html?highlight=visibility#function-visibility-specifiers
-      //   2: https://docs.soliditylang.org/en/v0.8.5/contracts.html#getter-functions
       await instance.owner.call(),
       contractOwner,
       "owner is not correct",
     );
   });
 
-  it("should mark addresses as enrolled", async () => {
-    await instance.enroll({ from: alice });
-
-    const aliceEnrolled = await instance.enrolled(alice, { from: alice });
-    assert.equal(
-      aliceEnrolled,
-      true,
-      "enroll balance is incorrect, check balance method or constructor",
-    );
+  it("requires a minimum amount to be sent", async () => {
+    var expectedErr = null;
+    try {
+      await instance.send({
+        from: bob,
+        value: 1,
+      });
+    } catch (err) {
+      expectedErr = err;
+    }
+    assert(expectedErr != null, "should not allow 1 to be sent");
   });
 
-  it("should not mark unenrolled users as enrolled", async () => {
-    const ownerEnrolled = await instance.enrolled(contractOwner, { from: contractOwner });
-    assert.equal(
-      ownerEnrolled,
-      false,
-      "only enrolled users should be marked enrolled",
-    );
-  });
+  it("should pay the creator of the contract first", async () => {
+    const amountToSend = 100;
+    const result = await instance.send({
+        from: bob,
+        value: amountToSend,
+    });
 
-  it("should deposit correct amount", async () => {
-    await instance.enroll({ from: alice });
-    await instance.deposit({ from: alice, value: deposit });
-    const balance = await instance.getBalance.call({ from: alice });
-
-    assert.equal(
-      deposit.toString(),
-      balance,
-      "deposit amount incorrect, check deposit method",
-    );
-  });
-
-  it("should log a deposit event when a deposit is made", async () => {
-    await instance.enroll({ from: alice });
-    const result = await instance.deposit({ from: alice, value: deposit });
-
-    const expectedEventResult = { accountAddress: alice, amount: deposit };
+    const expectedEventResult = { accountAddress: contractOwner, amount: amountToSend };
 
     const logAccountAddress = result.logs[0].args.accountAddress;
     const logDepositAmount = result.logs[0].args.amount.toNumber();
@@ -77,66 +46,74 @@ contract("PayItBackward", function (accounts) {
     assert.equal(
       expectedEventResult.accountAddress,
       logAccountAddress,
-      "LogDepositMade event accountAddress property not emitted, check deposit method",
+      "LogSend event accountAddress property not correctly emitted",
     );
 
     assert.equal(
       expectedEventResult.amount,
       logDepositAmount,
-      "LogDepositMade event amount property not emitted, check deposit method",
+      "LogSend event amount property not emitted",
     );
   });
 
-  it("should withdraw correct amount", async () => {
-    const initialAmount = 0;
-    await instance.enroll({ from: alice });
-    await instance.deposit({ from: alice, value: deposit });
-    await instance.withdraw(deposit, { from: alice });
-    const balance = await instance.getBalance.call({ from: alice });
+  it("should pay the previous sender the amount", async () => {
+    const amountToSend = 200;
+    await instance.send({
+        from: bob,
+        value: 100,
+    });
 
-    assert.equal(
-      balance.toString(),
-      initialAmount.toString(),
-      "balance incorrect after withdrawal, check withdraw method",
-    );
-  });
+    const result = await instance.send({
+        from: contractOwner,
+        value: amountToSend,
+    });
 
-  it("should not be able to withdraw more than has been deposited", async () => {
-    await instance.enroll({ from: alice });
-    await instance.deposit({ from: alice, value: deposit });
-    await catchRevert(instance.withdraw(deposit + 1, { from: alice }));
-  });
+    const expectedEventResult = { accountAddress: bob, amount: amountToSend };
 
-  it("should emit the appropriate event when a withdrawal is made", async () => {
-    const initialAmount = 0;
-    await instance.enroll({ from: alice });
-    await instance.deposit({ from: alice, value: deposit });
-    var result = await instance.withdraw(deposit, { from: alice });
-
-    const accountAddress = result.logs[0].args.accountAddress;
-    const newBalance = result.logs[0].args.newBalance.toNumber();
-    const withdrawAmount = result.logs[0].args.withdrawAmount.toNumber();
-
-    const expectedEventResult = {
-      accountAddress: alice,
-      newBalance: initialAmount,
-      withdrawAmount: deposit,
-    };
+    const logAccountAddress = result.logs[0].args.accountAddress;
+    const logDepositAmount = result.logs[0].args.amount.toNumber();
 
     assert.equal(
       expectedEventResult.accountAddress,
-      accountAddress,
-      "LogWithdrawal event accountAddress property not emitted, check deposit method",
+      logAccountAddress,
+      "LogSend event accountAddress property not correctly emitted",
     );
+
     assert.equal(
-      expectedEventResult.newBalance,
-      newBalance,
-      "LogWithdrawal event newBalance property not emitted, check deposit method",
+      expectedEventResult.amount,
+      logDepositAmount,
+      "LogSend event amount property not emitted",
     );
+  });
+
+  it("should let the owner see the previous sender", async () => {
+    await instance.send({
+        from: bob,
+        value: 100,
+    });
+
+    const result = await instance.getLastUser.call({from: contractOwner});
+
     assert.equal(
-      expectedEventResult.withdrawAmount,
-      withdrawAmount,
-      "LogWithdrawal event withdrawalAmount property not emitted, check deposit method",
+      result,
+      bob,
+      "Contract owner unable to see previous sender",
     );
+  });
+
+  it("should not let anyone else see the previous sender", async () => {
+    var expectedErr = null;
+    var exposedAddress = null;
+    try {
+      await instance.send({
+        from: bob,
+        value: 100,
+      });
+      exposedAddress = await instance.getLastUser.call({from: bob});
+    } catch (err) {
+      expectedErr = err;
+    }
+    assert(expectedErr != null, "should error our making a call to see previous address");
+    assert(exposedAddress == null, "should not expose previous address");
   });
 });
