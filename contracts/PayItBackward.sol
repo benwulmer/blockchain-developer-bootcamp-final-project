@@ -11,7 +11,7 @@ pragma solidity 0.5.16;
 
 //Proper Use of Require, Assert and Revert
 //Using Specific Compiler Pragma
-// Use Modifiers Only for Validation
+//Use Modifiers Only for Validation
 
 contract PrevUserTracker {
   address payable private prevAddress;
