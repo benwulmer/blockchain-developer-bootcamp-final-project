@@ -93,7 +93,6 @@ contract("PayItBackward", function (accounts) {
     });
 
     const result = await instance.getLastUser.call({from: contractOwner});
-
     assert.equal(
       result,
       bob,
