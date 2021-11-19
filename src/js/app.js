@@ -77,6 +77,7 @@ App = {
 
   bindEvents: function() {
     $(document).on('click', '.btn-send', App.sendMoney);
+    App.contracts.PayItBackward.events.LogSend(function(error, event){console.log(event)})
   },
 };
 

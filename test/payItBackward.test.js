@@ -101,6 +101,30 @@ contract("PayItBackward", function (accounts) {
     );
   });
 
+  it("should have the initial previously sent value be 0", async () => {
+    const result = await instance.getPreviousAmountSent.call({from: bob});
+    assert.equal(
+      result,
+      0,
+      "Initial previous amount sent is not 0",
+    );
+  });
+
+  it("should correctly display the previously sent value", async () => {
+    await instance.send({
+        from: bob,
+        value: 100,
+    });
+
+    const result = await instance.getPreviousAmountSent.call({from: bob});
+
+    assert.equal(
+      result,
+      100,
+      "The previous amount sent was not correctly returned as 100",
+    );
+  });
+
   it("should not let anyone else see the previous sender", async () => {
     var expectedErr = null;
     var exposedAddress = null;

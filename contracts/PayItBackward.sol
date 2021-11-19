@@ -32,6 +32,7 @@ contract PrevUserTracker {
 contract PayItBackward is PrevUserTracker {
   address public owner;
   uint constant minValue = 100;  
+  uint prevAmountSent = 0;
 
   constructor() payable public {
       owner = msg.sender;
@@ -51,6 +52,12 @@ contract PayItBackward is PrevUserTracker {
     return getLastAddress();
   }  
 
+  /// @notice Gets the previous amount sent to the previous address.
+  /// @return The previous amount sent
+  function getPreviousAmountSent() public returns (uint) {
+    return prevAmountSent;
+  }  
+
   /// @notice Pay the previous user of this contract
   function send() public payable {
     // Prevent people from sending minimal amounts to set themselves up to receive next.
@@ -58,6 +65,7 @@ contract PayItBackward is PrevUserTracker {
     address payable prev = getLastAddress();
     prev.transfer(msg.value);
     updateLastAddress(msg.sender);
+    prevAmountSent = msg.value;
     emit LogSend(prev, msg.value);
   }
 }
