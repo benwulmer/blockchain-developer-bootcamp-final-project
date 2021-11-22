@@ -1,60 +1,11 @@
 {
-  "contractName": "PayItBackward",
+  "contractName": "PrevUserTracker",
   "abi": [
     {
       "inputs": [],
       "payable": true,
       "stateMutability": "payable",
       "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "accountAddress",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "LogSend",
-      "type": "event"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getLastAddress",
-      "outputs": [
-        {
-          "internalType": "address payable",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
     },
     {
       "constant": false,
@@ -72,9 +23,9 @@
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": true,
       "inputs": [],
-      "name": "getLastUser",
+      "name": "getLastAddress",
       "outputs": [
         {
           "internalType": "address payable",
@@ -83,39 +34,15 @@
         }
       ],
       "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "getPreviousAmountSent",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "send",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
+      "stateMutability": "view",
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"accountAddress\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"LogSend\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"getLastAddress\",\"outputs\":[{\"internalType\":\"address payable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"getLastUser\",\"outputs\":[{\"internalType\":\"address payable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"getPreviousAmountSent\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"send\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"newAddress\",\"type\":\"address\"}],\"name\":\"updateLastAddress\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{\"getLastUser()\":{\"return\":\"The previous address\"},\"getPreviousAmountSent()\":{\"return\":\"The previous amount sent\"}}},\"userdoc\":{\"methods\":{\"getLastUser()\":{\"notice\":\"Get the last user of this contract (only callable by the owner)\"},\"getPreviousAmountSent()\":{\"notice\":\"Gets the previous amount sent to the previous address.\"},\"send()\":{\"notice\":\"Pay the previous user of this contract\"}}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/PayItBackward.sol\":\"PayItBackward\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/PayItBackward.sol\":{\"keccak256\":\"0xe0b626b24a6fabc90754a239f8da342599ad573c830029666e43cd7bea80739f\",\"urls\":[\"bzz-raw://8e34303981e306d0f6d4e369b94097e24e0365817242c312b77dfcaa6ae8e323\",\"dweb:/ipfs/Qmcik8xbmPWRdRLd4x5Ni9L2Vof7kAbf9hjpycQXwbUnCB\"]}},\"version\":1}",
-  "bytecode": "0x60806040526000600255336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555033600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610480806100996000396000f3fe6080604052600436106100555760003560e01c8063248b5e071461005a57806371a2ee52146100855780638da5cb5b146100dc5780639e29d22614610133578063b46300ec14610184578063efd799301461018e575b600080fd5b34801561006657600080fd5b5061006f6101e5565b6040518082815260200191505060405180910390f35b34801561009157600080fd5b5061009a6101ef565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156100e857600080fd5b506100f1610218565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561013f57600080fd5b506101826004803603602081101561015657600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061023e565b005b61018c610281565b005b34801561019a57600080fd5b506101a3610360565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000600254905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b606434101561028f57600080fd5b60006102996101ef565b90508073ffffffffffffffffffffffffffffffffffffffff166108fc349081150290604051600060405180830381858888f193505050501580156102e1573d6000803e3d6000fd5b506102eb3361023e565b346002819055507f9c14ee1f9f8e62180743f968c4cd77dd4915cc6a958827ea189628579435743d8134604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a150565b6000600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614610408576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260368152602001806104166036913960400191505060405180910390fd5b6104106101ef565b90509056fe4f6e6c7920746865206f776e657220697320616c6c6f77656420746f20736565207468652070726576696f757320616464726573732ea265627a7a723158205028a67a68334217eb7f23e997fa1de32ac008c59d3c616602a3752ec0df09a864736f6c63430005100032",
-  "deployedBytecode": "0x6080604052600436106100555760003560e01c8063248b5e071461005a57806371a2ee52146100855780638da5cb5b146100dc5780639e29d22614610133578063b46300ec14610184578063efd799301461018e575b600080fd5b34801561006657600080fd5b5061006f6101e5565b6040518082815260200191505060405180910390f35b34801561009157600080fd5b5061009a6101ef565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156100e857600080fd5b506100f1610218565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34801561013f57600080fd5b506101826004803603602081101561015657600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061023e565b005b61018c610281565b005b34801561019a57600080fd5b506101a3610360565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000600254905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b606434101561028f57600080fd5b60006102996101ef565b90508073ffffffffffffffffffffffffffffffffffffffff166108fc349081150290604051600060405180830381858888f193505050501580156102e1573d6000803e3d6000fd5b506102eb3361023e565b346002819055507f9c14ee1f9f8e62180743f968c4cd77dd4915cc6a958827ea189628579435743d8134604051808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018281526020019250505060405180910390a150565b6000600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614610408576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260368152602001806104166036913960400191505060405180910390fd5b6104106101ef565b90509056fe4f6e6c7920746865206f776e657220697320616c6c6f77656420746f20736565207468652070726576696f757320616464726573732ea265627a7a723158205028a67a68334217eb7f23e997fa1de32ac008c59d3c616602a3752ec0df09a864736f6c63430005100032",
-  "sourceMap": "711:1194:1:-;;;837:1;815:23;;495:10;481:11;;:24;;;;;;;;;;;;;;;;;;888:10;880:5;;:18;;;;;;;;;;;;;;;;;;711:1194;;;;;;",
-  "deployedSourceMap": "711:1194:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1419:87;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1419:87:1;;;:::i;:::-;;;;;;;;;;;;;;;;;;;615:92;;8:9:-1;5:2;;;30:1;27;20:12;5:2;615:92:1;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;757:20;;8:9:-1;5:2;;;30:1;27;20:12;5:2;757:20:1;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;514:97;;8:9:-1;5:2;;;30:1;27;20:12;5:2;514:97:1;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;514:97:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;1565:338;;;:::i;:::-;;1205:100;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1205:100:1;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1419:87;1468:4;1487:14;;1480:21;;1419:87;:::o;615:92::-;661:15;691:11;;;;;;;;;;;684:18;;615:92;:::o;757:20::-;;;;;;;;;;;;;:::o;514:97::-;596:10;582:11;;:24;;;;;;;;;;;;;;;;;;514:97;:::o;1565:338::-;806:3;1699:9;:21;;1691:30;;;;;;1727:20;1750:16;:14;:16::i;:::-;1727:39;;1772:4;:13;;:24;1786:9;1772:24;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1772:24:1;1802:29;1820:10;1802:17;:29::i;:::-;1854:9;1837:14;:26;;;;1874:24;1882:4;1888:9;1874:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;1565:338;:::o;1205:100::-;1254:15;1012:5;;;;;;;;;;;998:19;;:10;:19;;;990:86;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1284:16;:14;:16::i;:::-;1277:23;;1205:100;:::o",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"getLastAddress\",\"outputs\":[{\"internalType\":\"address payable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"newAddress\",\"type\":\"address\"}],\"name\":\"updateLastAddress\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/PayItBackward.sol\":\"PrevUserTracker\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/PayItBackward.sol\":{\"keccak256\":\"0xe0b626b24a6fabc90754a239f8da342599ad573c830029666e43cd7bea80739f\",\"urls\":[\"bzz-raw://8e34303981e306d0f6d4e369b94097e24e0365817242c312b77dfcaa6ae8e323\",\"dweb:/ipfs/Qmcik8xbmPWRdRLd4x5Ni9L2Vof7kAbf9hjpycQXwbUnCB\"]}},\"version\":1}",
+  "bytecode": "0x6080604052336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555061016a806100536000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806371a2ee521461003b5780639e29d22614610085575b600080fd5b6100436100c9565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100c76004803603602081101561009b57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506100f2565b005b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505056fea265627a7a72315820a900abb86582171f812237ed64c9037c57cdb8fa1f93236d329959143749913c64736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c806371a2ee521461003b5780639e29d22614610085575b600080fd5b6100436100c9565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100c76004803603602081101561009b57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506100f2565b005b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505056fea265627a7a72315820a900abb86582171f812237ed64c9037c57cdb8fa1f93236d329959143749913c64736f6c63430005100032",
+  "sourceMap": "375:334:1:-;;;495:10;481:11;;:24;;;;;;;;;;;;;;;;;;375:334;;;;;;",
+  "deployedSourceMap": "375:334:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;375:334:1;;;;;;;;;;;;;;;;;;;;;;;;615:92;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;514:97;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;514:97:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;615:92;661:15;691:11;;;;;;;;;;;684:18;;615:92;:::o;514:97::-;596:10;582:11;;:24;;;;;;;;;;;;;;;;;;514:97;:::o",
   "source": "/*\n * This exercise has been updated to use Solidity version 0.8.5\n * See the latest Solidity updates at\n * https://solidity.readthedocs.io/en/latest/080-breaking-changes.html\n */\n// SPDX-License-Identifier: MIT\npragma solidity 0.5.16;\n\n//Ownable\n//Inheritance\n\n//Proper Use of Require, Assert and Revert\n//Using Specific Compiler Pragma\n//Use Modifiers Only for Validation\n\ncontract PrevUserTracker {\n  address payable private prevAddress;\n\n  constructor() payable public {\n      prevAddress = msg.sender;\n  }\n\n  function updateLastAddress(address payable newAddress) public {\n    prevAddress = newAddress;\n  }\n\n  function getLastAddress() public view returns(address payable) {\n    return prevAddress;\n  }\n}\n\ncontract PayItBackward is PrevUserTracker {\n  address public owner;\n  uint constant minValue = 100;  \n  uint prevAmountSent = 0;\n\n  constructor() payable public {\n      owner = msg.sender;\n  }\n\n  event LogSend(address accountAddress, uint amount);\n\n\n  modifier onlyOwner() {\n    require(msg.sender == owner, \"Only the owner is allowed to see the previous address.\");\n    _;\n  }\n\n  /// @notice Get the last user of this contract (only callable by the owner)\n  /// @return The previous address\n  function getLastUser() public onlyOwner returns (address payable) {\n    return getLastAddress();\n  }  \n\n  /// @notice Gets the previous amount sent to the previous address.\n  /// @return The previous amount sent\n  function getPreviousAmountSent() public returns (uint) {\n    return prevAmountSent;\n  }  \n\n  /// @notice Pay the previous user of this contract\n  function send() public payable {\n    // Prevent people from sending minimal amounts to set themselves up to receive next.\n    require(msg.value >= minValue);\n    address payable prev = getLastAddress();\n    prev.transfer(msg.value);\n    updateLastAddress(msg.sender);\n    prevAmountSent = msg.value;\n    emit LogSend(prev, msg.value);\n  }\n}\n",
   "sourcePath": "/Users/ben.ulmer@coinbase.com/consensys/blockchain-developer-bootcamp-final-project/contracts/PayItBackward.sol",
   "ast": {
@@ -3395,38 +3322,13 @@
     "name": "solc",
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
-  "networks": {
-    "5777": {
-      "events": {},
-      "links": {},
-      "address": "0x667620961c06Af0c8CAC83819d400497C251e0E1",
-      "transactionHash": "0x7e4b7ab4087bc0456f5d9750fe75c10a25207ed2ef4fe6cc7d789ec14c237ec2"
-    }
-  },
+  "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-20T00:24:22.345Z",
-  "networkType": "ethereum",
+  "updatedAt": "2021-11-20T00:24:17.009Z",
   "devdoc": {
-    "methods": {
-      "getLastUser()": {
-        "return": "The previous address"
-      },
-      "getPreviousAmountSent()": {
-        "return": "The previous amount sent"
-      }
-    }
+    "methods": {}
   },
   "userdoc": {
-    "methods": {
-      "getLastUser()": {
-        "notice": "Get the last user of this contract (only callable by the owner)"
-      },
-      "getPreviousAmountSent()": {
-        "notice": "Gets the previous amount sent to the previous address."
-      },
-      "send()": {
-        "notice": "Pay the previous user of this contract"
-      }
-    }
+    "methods": {}
   }
 }
