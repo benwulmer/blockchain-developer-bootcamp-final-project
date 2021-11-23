@@ -44,7 +44,7 @@
   "sourceMap": "375:334:1:-;;;495:10;481:11;;:24;;;;;;;;;;;;;;;;;;375:334;;;;;;",
   "deployedSourceMap": "375:334:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;375:334:1;;;;;;;;;;;;;;;;;;;;;;;;615:92;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;514:97;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;514:97:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;615:92;661:15;691:11;;;;;;;;;;;684:18;;615:92;:::o;514:97::-;596:10;582:11;;:24;;;;;;;;;;;;;;;;;;514:97;:::o",
   "source": "/*\n * This exercise has been updated to use Solidity version 0.8.5\n * See the latest Solidity updates at\n * https://solidity.readthedocs.io/en/latest/080-breaking-changes.html\n */\n// SPDX-License-Identifier: MIT\npragma solidity 0.5.16;\n\n//Ownable\n//Inheritance\n\n//Proper Use of Require, Assert and Revert\n//Using Specific Compiler Pragma\n//Use Modifiers Only for Validation\n\ncontract PrevUserTracker {\n  address payable private prevAddress;\n\n  constructor() payable public {\n      prevAddress = msg.sender;\n  }\n\n  function updateLastAddress(address payable newAddress) public {\n    prevAddress = newAddress;\n  }\n\n  function getLastAddress() public view returns(address payable) {\n    return prevAddress;\n  }\n}\n\ncontract PayItBackward is PrevUserTracker {\n  address public owner;\n  uint constant minValue = 100;  \n  uint prevAmountSent = 0;\n\n  constructor() payable public {\n      owner = msg.sender;\n  }\n\n  event LogSend(address accountAddress, uint amount);\n\n\n  modifier onlyOwner() {\n    require(msg.sender == owner, \"Only the owner is allowed to see the previous address.\");\n    _;\n  }\n\n  /// @notice Get the last user of this contract (only callable by the owner)\n  /// @return The previous address\n  function getLastUser() public onlyOwner returns (address payable) {\n    return getLastAddress();\n  }  \n\n  /// @notice Gets the previous amount sent to the previous address.\n  /// @return The previous amount sent\n  function getPreviousAmountSent() public returns (uint) {\n    return prevAmountSent;\n  }  \n\n  /// @notice Pay the previous user of this contract\n  function send() public payable {\n    // Prevent people from sending minimal amounts to set themselves up to receive next.\n    require(msg.value >= minValue);\n    address payable prev = getLastAddress();\n    prev.transfer(msg.value);\n    updateLastAddress(msg.sender);\n    prevAmountSent = msg.value;\n    emit LogSend(prev, msg.value);\n  }\n}\n",
-  "sourcePath": "/Users/ben.ulmer@coinbase.com/consensys/blockchain-developer-bootcamp-final-project/contracts/PayItBackward.sol",
+  "sourcePath": "/Users/benulmer/consensys/blockchain-developer-bootcamp-final-project/contracts/PayItBackward.sol",
   "ast": {
     "absolutePath": "project:/contracts/PayItBackward.sol",
     "exportedSymbols": {
@@ -3324,7 +3324,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-20T00:24:17.009Z",
+  "updatedAt": "2021-11-23T05:09:25.608Z",
   "devdoc": {
     "methods": {}
   },
