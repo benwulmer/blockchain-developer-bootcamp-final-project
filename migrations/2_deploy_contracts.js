@@ -1,5 +1,5 @@
-var SimpleBank = artifacts.require("./PayItBackward.sol");
+var PayItBackward = artifacts.require("./PayItBackward.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleBank);
+  deployer.deploy(PayItBackward);
 };

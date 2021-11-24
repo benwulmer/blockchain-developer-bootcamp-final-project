@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import PayItBackwardContract from "./contracts/PayItBackward.json";
 import getWeb3 from "./getWeb3";
 
 import "./App.css";
@@ -17,9 +17,10 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
+      const deployedNetwork = PayItBackwardContract.networks[networkId];
       const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
+        PayItBackwardContract.abi,
+        // TODO UPDATE THIS
         deployedNetwork && deployedNetwork.address,
       );
 
@@ -46,6 +47,10 @@ class App extends Component {
       this.setState({supplementalMessage: "Must input a number"});
       return;
     }
+    if (parseInt(this.state.inputValue, 10) < 100) {
+      this.setState({supplementalMessage: "Must send at least 100 wei"});
+      return;
+    }
     this.setState({supplementalMessage: ""});
     const input = this.state.inputValue;
     this.sendValue(input);
@@ -55,15 +60,18 @@ class App extends Component {
   sendValue = async (value) => {
     const accounts = this.state.accounts;
     const contract = this.state.contract;
-    console.log("about to send");
-    console.log(value);
-    await contract.methods.set(value).send({ from: accounts[0] });
-    await this.updatePreviousAmountSent();
+    try {
+      await contract.methods.send().send({ from: accounts[0], value: value });
+      await this.updatePreviousAmountSent();
+      this.setState({supplementalMessage: "Successfully sent transaction"});
+    } catch (error) {
+      this.setState({supplementalMessage: "Unable to process transaction"});
+    }
   }
 
   updatePreviousAmountSent = async () => {
     const contract = this.state.contract;
-    const response = await contract.methods.get().call();
+    const response = await contract.methods.getPreviousAmountSent().call();
     this.setState({ previousAmountSent: response });
   };
 
@@ -74,11 +82,13 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Pay it Backward!</h1>
+        <div>Strangers helping strangers! In a similar vein to buying cofee for the person behind you in line, feel free to donate crypto to the previous sender.</div>
         <div>
           <input value={this.state.inputValue} placeholder="amount (in wei)" onChange={evt => this.updateInputValue(evt)}/>
         </div>
         <button onClick={this.handleClick.bind(this)}>Pay it Backward</button>
         <div>{this.state.supplementalMessage}</div>
+        <div>Previous amount sent: {this.state.previousAmountSent}</div>
       </div>
     );
   }
