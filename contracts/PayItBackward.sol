@@ -1,9 +1,4 @@
-/*
- * This exercise has been updated to use Solidity version 0.8.5
- * See the latest Solidity updates at
- * https://solidity.readthedocs.io/en/latest/080-breaking-changes.html
- */
-// SPDX-License-Identifier: MIT
+
 pragma solidity 0.5.16;
 
 //Ownable
