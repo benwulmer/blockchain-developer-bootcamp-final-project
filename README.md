@@ -16,13 +16,11 @@ Many of us have been recipients of a charitable 'Pay it forwards' moment. Maybe 
 
 ## Screencast link
 
+https://youtu.be/7rNNdes9BUs
 
 ## Environment variables needed for deploy
 
-```
-ROPSTEN_INFURA_PROJECT_ID=
-ROPSTEN_MNEMONIC=
-```
+You'll need to enter your infura key and mnemonic into truffle-config.js.
 
 ## Deployed website url:
 
@@ -30,4 +28,4 @@ https://benwulmer.github.io/blockchain-developer-bootcamp-final-project/
 
 ## Deployed contract address:
 
-0x008515D0f93e3f86D025378D3Db9152EF38478B6
+0xE0EDe3a0cE45c58f190382E92237fCc6Bc3c92A9
