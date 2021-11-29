@@ -17,11 +17,9 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = PayItBackwardContract.networks[networkId];
       const instance = new web3.eth.Contract(
         PayItBackwardContract.abi,
-        // TODO UPDATE THIS
-        deployedNetwork && deployedNetwork.address,
+        '0xE0EDe3a0cE45c58f190382E92237fCc6Bc3c92A9'
       );
 
       // Set web3, accounts, and contract to the state, and then proceed with an
